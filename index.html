@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To Mai</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(160deg, #fff0f6 0%, #fdf4ff 40%, #f0e8ff 100%);
+      min-height: 100vh;
+      color: #3b2a4a;
+      overflow-x: hidden;
+    }
+    .hearts-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .heart { position: absolute; color: #f9a8d4; opacity: 0.35; animation: floatHeart linear infinite; user-select: none; }
+    @keyframes floatHeart {
+      0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.35; }
+      90%  { opacity: 0.35; }
+      100% { transform: translateY(-10vh) rotate(20deg); opacity: 0; }
+    }
+    .hero { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6rem 2rem 5rem; }
+    .hero-card { background: rgba(255,255,255,0.65); backdrop-filter: blur(20px); border: 1px solid rgba(244,114,182,0.25); border-radius: 40px; padding: 4rem 3rem; max-width: 700px; width: 100%; box-shadow: 0 20px 60px rgba(168,85,247,0.1); animation: fadeUp 1s ease both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 8vw, 5rem); font-weight: 700; background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.15; margin-bottom: 1.5rem; }
+    .hero p { font-size: clamp(1rem, 2.5vw, 1.25rem); color: #7c5a8f; line-height: 1.8; font-weight: 300; margin-bottom: 2rem; }
+    .hero-heart { font-size: 3rem; display: inline-block; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+    .section { position: relative; z-index: 1; padding: 4rem 2rem; max-width: 1100px; margin: 0 auto; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3rem); text-align: center; margin-bottom: 3rem; color: #ec4899; }
+    .photos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+    .photo-slot { border-radius: 28px; overflow: hidden; height: 360px; position: relative; box-shadow: 0 10px 40px rgba(168,85,247,0.15); transition: transform 0.4s ease; }
+    .photo-slot:hover { transform: translateY(-6px) scale(1.01); }
+    .photo-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .photo-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%); padding: 1.5rem; color: white; }
+    .photo-overlay h4 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 0.25rem; }
+    .photo-overlay p { font-size: 0.9rem; opacity: 0.85; line-height: 1.5; }
+    .memories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .memory-card { background: rgba(255,255,255,0.7); border: 1px solid rgba(244,114,182,0.2); border-radius: 28px; padding: 2rem; transition: transform 0.3s ease, box-shadow 0.3s ease; animation: fadeUp 0.8s ease both; }
+    .memory-card:nth-child(1) { animation-delay: 0.1s; }
+    .memory-card:nth-child(2) { animation-delay: 0.25s; }
+    .memory-card:nth-child(3) { animation-delay: 0.4s; }
+    .memory-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(168,85,247,0.12); }
+    .memory-card h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #ec4899; margin-bottom: 0.75rem; }
+    .memory-card p { color: #7c5a8f; line-height: 1.8; font-weight: 300; }
+    .letter-wrap { max-width: 780px; margin: 0 auto; }
+    .letter-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); border: 1px solid rgba(216,180,254,0.4); border-radius: 40px; padding: 3.5rem; box-shadow: 0 24px 64px rgba(168,85,247,0.1); animation: fadeUp 0.8s ease both; }
+    .letter-card p { font-size: clamp(1rem, 2vw, 1.15rem); line-height: 2; color: #4a3560; font-weight: 300; margin-bottom: 1.5rem; }
+    .letter-card p:last-child { margin-bottom: 0; }
+    .letter-sign { text-align: right; font-family: 'Playfair Display', serif; font-size: 1.4rem; font-style: italic; color: #ec4899; margin-top: 1rem !important; }
+    .divider { text-align: center; font-size: 1.5rem; color: #f9a8d4; letter-spacing: 0.5rem; margin: 1rem 0 3rem; }
+    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem; color: #b08fc0; font-size: 0.9rem; font-weight: 300; letter-spacing: 0.05em; }
+    @media (max-width: 600px) { .hero-card { padding: 2.5rem 1.5rem; } .letter-card { padding: 2rem 1.5rem; } }
+  </style>
+</head>
+<body>
+
+  <div class="hearts-bg" id="hearts"></div>
+
+  <section class="hero">
+    <div class="hero-card">
+      <h1>Maiiii</h1>
+      <p>Before our last day in high school, there was something I never wanted to leave unsaid.</p>
+      <span class="hero-heart">♡</span>
+    </div>
+  </section>
+
+  <div class="section">
+    <h2 class="section-title">Our Memories</h2>
+    <div class="photos-grid">
+
+      <div class="photo-slot">
+        <img src="472B7AB3-7668-46D1-B1BC-CD1B907F795B.JPG" alt="The Beginning" />
+        <div class="photo-overlay">
+          <h4>The Beginning</h4>
+          <p>The day our friendship started changed my life forever.</p>
+        </div>
+      </div>
+
+      <div class="photo-slot">
+        <img src="IMG_2294.jpeg" alt="The Laughs" />
+        <div class="photo-overlay">
+          <h4>The Laughs</h4>
+          <p>Every random moment somehow became my favorite memory.</p>
+        </div>
+      </div>
+
+      <div class="photo-slot">
+        <img src="B962318C-C5DB-4B64-8181-920CACF46720_1_105_c.jpeg" alt="The Last Chapter" />
+        <div class="photo-overlay">
+          <h4>The Last Chapter</h4>
+          <p>Even endings become beautiful when the memories are real.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">A Letter For You</h2>
+    <div class="divider">♡ ♡ ♡</div>
+    <div class="letter-wrap">
+      <div class="letter-card">
+        <p>Dear Mai,</p>
+        <p>You were such an important person in my life this year. อยากจะบอกว่ารักมากๆ ขอบคุณที่อยู่เคียงข้างกันมาตลอด I don't think words will ever truly explain how grateful I am that life let our paths cross. Eventhough we did not know each other for 5 years, honestly, it felt longer than that. Looking back, my last few years in high school would have never been what I wanted or expected without you. You have brought so much joy and happiness into my life. You have turned every bit of moment into memories I wish I could relive forever. Every laugh, every poop you poop out will always be something I hold into my heart forever.</p>
+        <p>Thank you for being such a great friend, a person who gave a hand to me when I felt completely lost. Thank you for understanding me, even though we fought. Looking at you makes me feel at home, a place I now wish to hold on to forever. You became my safe place and favorite person</p>
+        <p>Who knows how many more years I have to wait until I meet someone who truly understands my sarcasm like you. Words can even express how we understand each other or how we feel. Just by looking at each other in the eyes, I know damn well what you thinking. Yeah, it's honestly sad knowing that I won't see you every day, won't have the same class together anymore, and won't casually see each other every day. I really wish time would slow down just a little longer.</p>
+        <p>But even if we part in different directions after graduation, please know I'll forever be here for you wheter you're happy or sad, like how you've always been supportive of me.  No distance, no time, and no new chapter could ever erase what our friendship means to me. Truly heartbroken, but our friendship wouldn't be broken like how I feel right now.</p>
+        <p>I'm so proud of the person you have become and how much work you have put into golf and life. Wherever life takes you, Baibua will always be here. I hope you met people who truly deserve your kindness, love, and spirits. I love you.</p>
+        <p>Ruk na ka.</p>
+        <p class="letter-sign">With love, Baibua ♡</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Forever in my heart
+  </footer>
+
+  <script>
+    const container = document.getElementById('hearts');
+    const symbols = ['♡', '♥', '❤', '♡'];
+    for (let i = 0; i < 18; i++) {
+      const h = document.createElement('span');
+      h.className = 'heart';
+      h.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      h.style.left = Math.random() * 100 + '%';
+      h.style.top = Math.random() * 100 + '%';
+      h.style.fontSize = (Math.random() * 18 + 10) + 'px';
+      h.style.animationDuration = (Math.random() * 15 + 10) + 's';
+      h.style.animationDelay = (Math.random() * 10) + 's';
+      container.appendChild(h);
+    }
+  </script>
+
+</body>
+</html>
